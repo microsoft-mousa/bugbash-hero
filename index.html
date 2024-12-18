@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .person {
+            margin: 10px 0;
+        }
+        .name {
+            font-weight: bold;
+        }
+        .bar {
+            height: 20px;
+            background-color: #4caf50;
+            border-radius: 5px;
+        }
+        .bar-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <h1>Token Tracker</h1>
+    <div id="tracker"></div>
+
+    <script>
+        // Example token data
+        const data = [
+            { name: "Alice", tokens: 45 },
+            { name: "Bob", tokens: 30 },
+            { name: "Charlie", tokens: 75 },
+            { name: "Diana", tokens: 20 }
+        ];
+
+        // Render the token bars
+        const tracker = document.getElementById('tracker');
+        data.forEach(person => {
+            const personDiv = document.createElement('div');
+            personDiv.className = 'person';
+            
+            const name = document.createElement('div');
+            name.className = 'name';
+            name.textContent = `${person.name} (${person.tokens} tokens)`;
+
+            const barContainer = document.createElement('div');
+            barContainer.className = 'bar-container';
+
+            const bar = document.createElement('div');
+            bar.className = 'bar';
+            bar.style.width = `${person.tokens}%`;
+
+            barContainer.appendChild(bar);
+            personDiv.appendChild(name);
+            personDiv.appendChild(barContainer);
+            tracker.appendChild(personDiv);
+        });
+    </script>
+</body>
+</html>
