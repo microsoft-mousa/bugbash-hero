@@ -3,54 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Token Tracker</title>
+    <title>Token Tracker with Bug Bash</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
         }
         .person {
-            margin: 10px 0;
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .name {
             font-weight: bold;
-        }
-        .bar {
-            height: 20px;
-            background-color: #4caf50;
-            border-radius: 5px;
+            font-size: 18px;
         }
         .bar-container {
             width: 100%;
             background-color: #e0e0e0;
             border-radius: 5px;
             overflow: hidden;
+            margin-top: 8px;
+        }
+        .bar {
+            height: 20px;
+            background-color: #4caf50;
+            border-radius: 5px;
+        }
+        .badges {
+            margin-top: 8px;
+        }
+        .badge {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 5px 10px;
+            margin: 5px 5px 0 0;
+            border-radius: 12px;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
-    <h1>Token Tracker</h1>
+    <h1>Token Tracker with Bug Bash</h1>
     <div id="tracker"></div>
 
     <script>
-        // Example token data
+        // Example token and badge data
         const data = [
-            { name: "Alice", tokens: 45 },
-            { name: "Bob", tokens: 30 },
-            { name: "Charlie", tokens: 75 },
-            { name: "Diana", tokens: 20 }
+            { 
+                name: "Alice", 
+                tokens: 45, 
+                badges: ["Bug Bash 1", "Bug Bash 2"]
+            },
+            { 
+                name: "Bob", 
+                tokens: 30, 
+                badges: ["Bug Bash 1"]
+            },
+            { 
+                name: "Charlie", 
+                tokens: 75, 
+                badges: ["Bug Bash 2", "Bug Bash 3"]
+            },
+            { 
+                name: "Diana", 
+                tokens: 20, 
+                badges: ["Bug Bash 3"]
+            }
         ];
 
-        // Render the token bars
+        // Render the token bars and badges
         const tracker = document.getElementById('tracker');
         data.forEach(person => {
             const personDiv = document.createElement('div');
             personDiv.className = 'person';
-            
+
+            // Add name and tokens
             const name = document.createElement('div');
             name.className = 'name';
             name.textContent = `${person.name} (${person.tokens} tokens)`;
 
+            // Add progress bar
             const barContainer = document.createElement('div');
             barContainer.className = 'bar-container';
 
@@ -59,8 +95,22 @@
             bar.style.width = `${person.tokens}%`;
 
             barContainer.appendChild(bar);
+
+            // Add badges
+            const badgesDiv = document.createElement('div');
+            badgesDiv.className = 'badges';
+
+            person.badges.forEach(badge => {
+                const badgeSpan = document.createElement('span');
+                badgeSpan.className = 'badge';
+                badgeSpan.textContent = badge;
+                badgesDiv.appendChild(badgeSpan);
+            });
+
+            // Append all elements
             personDiv.appendChild(name);
             personDiv.appendChild(barContainer);
+            personDiv.appendChild(badgesDiv);
             tracker.appendChild(personDiv);
         });
     </script>
