@@ -96,6 +96,10 @@
                         const badgeImg = document.createElement('img');
                         badgeImg.src = badgeUrl;
                         badgeImg.alt = `${username}'s Badge`;
+                        badgeImg.onerror = () => {
+                            badgeImg.src = './images/default-badge.jpg'; // Default image
+                            console.warn(`Badge not found: ${badgeUrl}, using default.`);
+                        };
                         badgesDiv.appendChild(badgeImg);
                     });
 
