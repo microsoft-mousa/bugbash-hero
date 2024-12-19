@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Progress Bar and Badges</title>
+    <title>Progress Bars and Badges</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -58,6 +58,9 @@
             try {
                 // Fetch data from JSON
                 const response = await fetch('./data.json');
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch data: ${response.statusText}`);
+                }
                 const data = await response.json();
 
                 // Select tracker container
@@ -97,7 +100,7 @@
                         badgeImg.src = badgeUrl;
                         badgeImg.alt = `${username}'s Badge`;
                         badgeImg.onerror = () => {
-                            badgeImg.src = './images/default-badge.jpg'; // Default image
+                            badgeImg.src = './images/default-badge.jpg'; // Default badge image
                             console.warn(`Badge not found: ${badgeUrl}, using default.`);
                         };
                         badgesDiv.appendChild(badgeImg);
