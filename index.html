@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Token Tracker with Bug Bash</title>
+    <title>Token Tracker with Badge Images</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -33,21 +33,26 @@
             border-radius: 5px;
         }
         .badges {
-            margin-top: 8px;
+            margin-top: 10px;
         }
         .badge {
             display: inline-block;
-            background-color: #007bff;
-            color: white;
-            padding: 5px 10px;
-            margin: 5px 5px 0 0;
-            border-radius: 12px;
-            font-size: 12px;
+            margin: 5px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .badge img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     </style>
 </head>
 <body>
-    <h1>Token Tracker with Bug Bash</h1>
+    <h1>Token Tracker with Badge Images</h1>
     <div id="tracker"></div>
 
     <script>
@@ -56,22 +61,22 @@
             { 
                 name: "Alice", 
                 tokens: 45, 
-                badges: ["Bug Bash 1", "Bug Bash 2"]
+                badges: ["./images/bugbash1.png", "./images/bugbash2.png"]
             },
             { 
                 name: "Bob", 
                 tokens: 30, 
-                badges: ["Bug Bash 1"]
+                badges: ["./images/bugbash1.png"]
             },
             { 
                 name: "Charlie", 
                 tokens: 75, 
-                badges: ["Bug Bash 2", "Bug Bash 3"]
+                badges: ["./images/bugbash2.png", "./images/bugbash3.png"]
             },
             { 
                 name: "Diana", 
                 tokens: 20, 
-                badges: ["Bug Bash 3"]
+                badges: ["./images/bugbash3.png"]
             }
         ];
 
@@ -100,11 +105,16 @@
             const badgesDiv = document.createElement('div');
             badgesDiv.className = 'badges';
 
-            person.badges.forEach(badge => {
-                const badgeSpan = document.createElement('span');
-                badgeSpan.className = 'badge';
-                badgeSpan.textContent = badge;
-                badgesDiv.appendChild(badgeSpan);
+            person.badges.forEach(badgeUrl => {
+                const badge = document.createElement('div');
+                badge.className = 'badge';
+
+                const badgeImg = document.createElement('img');
+                badgeImg.src = badgeUrl;
+                badgeImg.alt = `${person.name}'s Badge`;
+
+                badge.appendChild(badgeImg);
+                badgesDiv.appendChild(badge);
             });
 
             // Append all elements
