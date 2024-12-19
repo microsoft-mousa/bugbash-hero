@@ -35,7 +35,8 @@ def add_or_update_user(username, tokens, badge):
 
     # Save updated data
     save_data(data)
-    print(f"Data for user '{username}' has been updated.")
+    print(f"Data for user '{username}' has been updated:")
+    print(json.dumps(data[username], indent=4))
 
 def main():
     """Main function to interact with the user."""
