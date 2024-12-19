@@ -56,21 +56,25 @@
     <div id="tracker"></div>
 
     <script>
-        // Function to fetch and render data
-        async function loadData() {
+        async function loadAndRenderData() {
             try {
-                const response = await fetch('./data.json'); // Adjust path if needed
+                // Fetch JSON data
+                const response = await fetch('./data.json');
                 const data = await response.json();
 
+                // Select the tracker div
                 const tracker = document.getElementById('tracker');
-                data.forEach(person => {
+
+                // Iterate over each user in the JSON data
+                for (const [username, userData] of Object.entries(data)) {
+                    // Create a container for the user
                     const personDiv = document.createElement('div');
                     personDiv.className = 'person';
 
                     // Add name and tokens
                     const name = document.createElement('div');
                     name.className = 'name';
-                    name.textContent = `${person.name} (${person.tokens} tokens)`;
+                    name.textContent = `${username} (${userData.tokens} tokens)`;
 
                     // Add progress bar
                     const barContainer = document.createElement('div');
@@ -78,37 +82,41 @@
 
                     const bar = document.createElement('div');
                     bar.className = 'bar';
-                    bar.style.width = `${person.tokens}%`;
+                    bar.style.width = `${userData.tokens}%`;
 
                     barContainer.appendChild(bar);
 
-                    // Add badge
+                    // Add badges
                     const badgesDiv = document.createElement('div');
                     badgesDiv.className = 'badges';
 
-                    const badge = document.createElement('div');
-                    badge.className = 'badge';
+                    userData.badges.forEach(badgeUrl => {
+                        const badge = document.createElement('div');
+                        badge.className = 'badge';
 
-                    const badgeImg = document.createElement('img');
-                    badgeImg.src = person.badge;
-                    badgeImg.alt = `${person.name}'s Badge`;
+                        const badgeImg = document.createElement('img');
+                        badgeImg.src = badgeUrl;
+                        badgeImg.alt = `${username}'s Badge`;
 
-                    badge.appendChild(badgeImg);
-                    badgesDiv.appendChild(badge);
+                        badge.appendChild(badgeImg);
+                        badgesDiv.appendChild(badge);
+                    });
 
-                    // Append all elements
+                    // Append all elements to the user container
                     personDiv.appendChild(name);
                     personDiv.appendChild(barContainer);
                     personDiv.appendChild(badgesDiv);
+
+                    // Add the user container to the tracker div
                     tracker.appendChild(personDiv);
-                });
+                }
             } catch (error) {
                 console.error('Error loading data:', error);
             }
         }
 
-        // Load data on page load
-        loadData();
+        // Load and render data on page load
+        loadAndRenderData();
     </script>
 </body>
 </html>
