@@ -58,13 +58,11 @@
     <script>
         // Example token and badge data
         const data = [
-            { name: "Alice", tokens: 45, hasBadge: true },
-            { name: "Bob", tokens: 30, hasBadge: false },
-            { name: "Charlie", tokens: 75, hasBadge: true },
-            { name: "Diana", tokens: 20, hasBadge: false }
+            { name: "Alice", tokens: 45, badge: './images/badge1.jpg' },
+            { name: "Bob", tokens: 30, badge: './images/badge1.jpg' },
+            { name: "Charlie", tokens: 75, badge: './images/badge1.jpg' },
+            { name: "Diana", tokens: 20, badge: './images/badge1.jpg' }
         ];
-
-        const badgeImage = './images/badge1.jpeg'; // Path to the badge image
 
         // Render the token bars and badges
         const tracker = document.getElementById('tracker');
@@ -87,21 +85,19 @@
 
             barContainer.appendChild(bar);
 
-            // Add badge if applicable
+            // Add badge
             const badgesDiv = document.createElement('div');
             badgesDiv.className = 'badges';
 
-            if (person.hasBadge) {
-                const badge = document.createElement('div');
-                badge.className = 'badge';
+            const badge = document.createElement('div');
+            badge.className = 'badge';
 
-                const badgeImg = document.createElement('img');
-                badgeImg.src = badgeImage;
-                badgeImg.alt = `${person.name}'s Badge`;
+            const badgeImg = document.createElement('img');
+            badgeImg.src = person.badge;
+            badgeImg.alt = `${person.name}'s Badge`;
 
-                badge.appendChild(badgeImg);
-                badgesDiv.appendChild(badge);
-            }
+            badge.appendChild(badgeImg);
+            badgesDiv.appendChild(badge);
 
             // Append all elements
             personDiv.appendChild(name);
