@@ -14,12 +14,10 @@
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .name-and-bar {
-            flex-grow: 1;
+            margin-bottom: 10px;
         }
         .name {
             font-weight: bold;
@@ -38,14 +36,17 @@
             border-radius: 5px;
         }
         .badges {
+            margin-top: 10px;
             display: flex;
-            gap: 10px;
+            justify-content: flex-start;
+            gap: 8px;
         }
         .badge img {
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             border: 1px solid #ccc;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
@@ -106,7 +107,7 @@
                         badgesDiv.appendChild(badgeImg);
                     });
 
-                    // Append everything to the person container
+                    // Append all elements to the person container
                     personDiv.appendChild(nameAndBarDiv);
                     personDiv.appendChild(badgesDiv);
 
