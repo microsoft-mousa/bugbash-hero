@@ -1,32 +1,18 @@
 {
     "Alice": {
         "tokens": 45,
-        "badges": [
-            ".\images\badge1.jpg"
-        ]
+        "badges": ["./images/badge1.jpg"]
     },
     "Bob": {
         "tokens": 30,
-        "badges": [
-            ".\images\badge1.jpg"
-        ]
+        "badges": ["./images/badge1.jpg"]
     },
     "Charlie": {
         "tokens": 75,
-        "badges": [
-            ".\images\badge1.jpg"
-        ]
+        "badges": ["./images/badge1.jpg"]
     },
     "Diana": {
         "tokens": 20,
-        "badges": [
-            ".\images\badge1.jpg"
-        ]
-    },
-    "Moa": {
-        "tokens": 10,
-        "badges": [
-            ".\images\badge1.jpg"
-        ]
+        "badges": ["./images/badge1.jpg"]
     }
 }
