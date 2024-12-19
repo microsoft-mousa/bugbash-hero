@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Token Tracker with Badge Images</title>
+    <title>Token Tracker with Badge Assignment</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -52,59 +52,100 @@
     </style>
 </head>
 <body>
-    <h1>Token Tracker with Badge Images</h1>
+    <h1>Token Tracker with Badge Assignment</h1>
     <div id="tracker"></div>
+
+    <h2>Add a Badge</h2>
+    <form id="badgeForm">
+        <label for="userSelect">Select User:</label>
+        <select id="userSelect"></select>
+        <button type="button" id="addBadgeBtn">Add Badge</button>
+    </form>
 
     <script>
         // Example token and badge data
         const data = [
-            { name: "Alice", tokens: 45, badge: 'images/badge1.jpg' },
-            { name: "Bob", tokens: 30, badge: 'images/badge1.jpg' },
-            { name: "Charlie", tokens: 75, badge: 'images/badge1.jpg' },
-            { name: "Diana", tokens: 20, badge: 'images/badge1.jpg' }
+            { id: 1, name: "Alice", tokens: 45, badges: [] },
+            { id: 2, name: "Bob", tokens: 30, badges: [] },
+            { id: 3, name: "Charlie", tokens: 75, badges: [] },
+            { id: 4, name: "Diana", tokens: 20, badges: [] }
         ];
+
+        const badgeImage = './images/badge1.jpg'; // Path to the badge image
 
         // Render the token bars and badges
         const tracker = document.getElementById('tracker');
-        data.forEach(person => {
-            const personDiv = document.createElement('div');
-            personDiv.className = 'person';
+        const userSelect = document.getElementById('userSelect');
 
-            // Add name and tokens
-            const name = document.createElement('div');
-            name.className = 'name';
-            name.textContent = `${person.name} (${person.tokens} tokens)`;
+        function renderTracker() {
+            tracker.innerHTML = '';
+            data.forEach(person => {
+                const personDiv = document.createElement('div');
+                personDiv.className = 'person';
 
-            // Add progress bar
-            const barContainer = document.createElement('div');
-            barContainer.className = 'bar-container';
+                // Add name and tokens
+                const name = document.createElement('div');
+                name.className = 'name';
+                name.textContent = `${person.name} (${person.tokens} tokens)`;
 
-            const bar = document.createElement('div');
-            bar.className = 'bar';
-            bar.style.width = `${person.tokens}%`;
+                // Add progress bar
+                const barContainer = document.createElement('div');
+                barContainer.className = 'bar-container';
 
-            barContainer.appendChild(bar);
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.width = `${person.tokens}%`;
 
-            // Add badge
-            const badgesDiv = document.createElement('div');
-            badgesDiv.className = 'badges';
+                barContainer.appendChild(bar);
 
-            const badge = document.createElement('div');
-            badge.className = 'badge';
+                // Add badges
+                const badgesDiv = document.createElement('div');
+                badgesDiv.className = 'badges';
 
-            const badgeImg = document.createElement('img');
-            badgeImg.src = person.badge;
-            badgeImg.alt = `${person.name}'s Badge`;
+                person.badges.forEach(badgeUrl => {
+                    const badge = document.createElement('div');
+                    badge.className = 'badge';
 
-            badge.appendChild(badgeImg);
-            badgesDiv.appendChild(badge);
+                    const badgeImg = document.createElement('img');
+                    badgeImg.src = badgeUrl;
+                    badgeImg.alt = `${person.name}'s Badge`;
 
-            // Append all elements
-            personDiv.appendChild(name);
-            personDiv.appendChild(barContainer);
-            personDiv.appendChild(badgesDiv);
-            tracker.appendChild(personDiv);
+                    badge.appendChild(badgeImg);
+                    badgesDiv.appendChild(badge);
+                });
+
+                // Append all elements
+                personDiv.appendChild(name);
+                personDiv.appendChild(barContainer);
+                personDiv.appendChild(badgesDiv);
+                tracker.appendChild(personDiv);
+            });
+        }
+
+        // Populate user select dropdown
+        function populateUserSelect() {
+            userSelect.innerHTML = '';
+            data.forEach(person => {
+                const option = document.createElement('option');
+                option.value = person.id;
+                option.textContent = person.name;
+                userSelect.appendChild(option);
+            });
+        }
+
+        // Add badge to user
+        document.getElementById('addBadgeBtn').addEventListener('click', () => {
+            const userId = parseInt(userSelect.value, 10);
+            const user = data.find(person => person.id === userId);
+            if (user) {
+                user.badges.push(badgeImage);
+                renderTracker();
+            }
         });
+
+        // Initial rendering
+        renderTracker();
+        populateUserSelect();
     </script>
 </body>
 </html>
