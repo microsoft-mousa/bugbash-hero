@@ -3,93 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Badges Display</title>
+    <title>Token Tracker with Badge Images</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
         }
         .person {
-            margin: 10px 0;
+            margin: 20px 0;
             padding: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid #ccc;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .name {
             font-weight: bold;
-            font-size: 16px;
+            font-size: 18px;
+        }
+        .bar-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .bar {
+            height: 20px;
+            background-color: #4caf50;
+            border-radius: 5px;
         }
         .badges {
-            display: flex;
-            gap: 5px;
+            margin-top: 10px;
+        }
+        .badge {
+            display: inline-block;
+            margin: 5px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         .badge img {
-            width: 15px; /* Smaller width */
-            height: 15px; /* Smaller height */
-            border-radius: 50%;
-            border: 1px solid #ccc;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
     </style>
 </head>
 <body>
-    <h1>Badges</h1>
-    <div id="badges-container"></div>
+    <h1>Token Tracker with Badge Images</h1>
+    <div id="tracker"></div>
 
     <script>
-        async function loadBadges() {
+        async function loadAndRenderData() {
             try {
-                // Fetch data from JSON
+                // Fetch JSON data
                 const response = await fetch('./data.json');
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch data: ${response.statusText}`);
-                }
                 const data = await response.json();
 
-                // Select badges container
-                const badgesContainer = document.getElementById('badges-container');
+                // Select the tracker div
+                const tracker = document.getElementById('tracker');
 
-                // Render each user's badges
+                // Iterate over each user in the JSON data
                 for (const [username, userData] of Object.entries(data)) {
-                    // Create person container
+                    // Create a container for the user
                     const personDiv = document.createElement('div');
                     personDiv.className = 'person';
 
-                    // Add username
-                    const nameDiv = document.createElement('div');
-                    nameDiv.className = 'name';
-                    nameDiv.textContent = username;
+                    // Add name and tokens
+                    const name = document.createElement('div');
+                    name.className = 'name';
+                    name.textContent = `${username} (${userData.tokens} tokens)`;
+
+                    // Add progress bar
+                    const barContainer = document.createElement('div');
+                    barContainer.className = 'bar-container';
+
+                    const bar = document.createElement('div');
+                    bar.className = 'bar';
+                    bar.style.width = `${userData.tokens}%`;
+
+                    barContainer.appendChild(bar);
 
                     // Add badges
                     const badgesDiv = document.createElement('div');
                     badgesDiv.className = 'badges';
 
                     userData.badges.forEach(badgeUrl => {
+                        const badge = document.createElement('div');
+                        badge.className = 'badge';
+
                         const badgeImg = document.createElement('img');
                         badgeImg.src = badgeUrl;
                         badgeImg.alt = `${username}'s Badge`;
-                        badgeImg.onerror = () => {
-                            badgeImg.src = './images/default-badge.jpg'; // Fallback badge image
-                            console.warn(`Badge not found: ${badgeUrl}, using default.`);
-                        };
-                        badgesDiv.appendChild(badgeImg);
+
+                        badge.appendChild(badgeImg);
+                        badgesDiv.appendChild(badge);
                     });
 
-                    // Append username and badges to person container
-                    personDiv.appendChild(nameDiv);
+                    // Append all elements to the user container
+                    personDiv.appendChild(name);
+                    personDiv.appendChild(barContainer);
                     personDiv.appendChild(badgesDiv);
 
-                    // Add person container to the main container
-                    badgesContainer.appendChild(personDiv);
+                    // Add the user container to the tracker div
+                    tracker.appendChild(personDiv);
                 }
             } catch (error) {
-                console.error('Error loading badges:', error);
+                console.error('Error loading data:', error);
             }
         }
 
-        // Load badges on page load
-        loadBadges();
+        // Load and render data on page load
+        loadAndRenderData();
     </script>
 </body>
 </html>
