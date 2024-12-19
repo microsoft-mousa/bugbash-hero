@@ -1,0 +1,6 @@
+[
+    { "name": "Alice", "tokens": 45, "badge": "./images/badge1.jpg" },
+    { "name": "Bob", "tokens": 30, "badge": "./images/badge1.jpg" },
+    { "name": "Charlie", "tokens": 75, "badge": "./images/badge1.jpg" },
+    { "name": "Diana", "tokens": 20, "badge": "./images/badge1.jpg" }
+]
