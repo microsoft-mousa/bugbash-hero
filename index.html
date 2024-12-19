@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Token Tracker with Badge Images</title>
+    <title>Progress Bar and Badges</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,18 +14,23 @@
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .name-and-bar {
+            flex-grow: 1;
         }
         .name {
             font-weight: bold;
             font-size: 18px;
+            margin-bottom: 5px;
         }
         .bar-container {
             width: 100%;
             background-color: #e0e0e0;
             border-radius: 5px;
             overflow: hidden;
-            margin-top: 8px;
         }
         .bar {
             height: 20px;
@@ -33,50 +38,45 @@
             border-radius: 5px;
         }
         .badges {
-            margin-top: 10px;
-        }
-        .badge {
-            display: inline-block;
-            margin: 5px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            gap: 10px;
         }
         .badge img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #ccc;
         }
     </style>
 </head>
 <body>
-    <h1>Token Tracker with Badge Images</h1>
+    <h1>Progress Bars and Badges</h1>
     <div id="tracker"></div>
 
     <script>
         async function loadAndRenderData() {
             try {
-                // Fetch JSON data
+                // Fetch data from JSON
                 const response = await fetch('./data.json');
                 const data = await response.json();
 
-                // Select the tracker div
+                // Select tracker container
                 const tracker = document.getElementById('tracker');
 
-                // Iterate over each user in the JSON data
+                // Render each person's data
                 for (const [username, userData] of Object.entries(data)) {
-                    // Create a container for the user
+                    // Create person container
                     const personDiv = document.createElement('div');
                     personDiv.className = 'person';
 
-                    // Add name and tokens
-                    const name = document.createElement('div');
-                    name.className = 'name';
-                    name.textContent = `${username} (${userData.tokens} tokens)`;
+                    // Name and progress bar container
+                    const nameAndBarDiv = document.createElement('div');
+                    nameAndBarDiv.className = 'name-and-bar';
 
-                    // Add progress bar
+                    const nameDiv = document.createElement('div');
+                    nameDiv.className = 'name';
+                    nameDiv.textContent = `${username} (${userData.tokens} tokens)`;
+
                     const barContainer = document.createElement('div');
                     barContainer.className = 'bar-container';
 
@@ -85,29 +85,25 @@
                     bar.style.width = `${userData.tokens}%`;
 
                     barContainer.appendChild(bar);
+                    nameAndBarDiv.appendChild(nameDiv);
+                    nameAndBarDiv.appendChild(barContainer);
 
-                    // Add badges
+                    // Badges container
                     const badgesDiv = document.createElement('div');
                     badgesDiv.className = 'badges';
 
                     userData.badges.forEach(badgeUrl => {
-                        const badge = document.createElement('div');
-                        badge.className = 'badge';
-
                         const badgeImg = document.createElement('img');
                         badgeImg.src = badgeUrl;
                         badgeImg.alt = `${username}'s Badge`;
-
-                        badge.appendChild(badgeImg);
-                        badgesDiv.appendChild(badge);
+                        badgesDiv.appendChild(badgeImg);
                     });
 
-                    // Append all elements to the user container
-                    personDiv.appendChild(name);
-                    personDiv.appendChild(barContainer);
+                    // Append everything to the person container
+                    personDiv.appendChild(nameAndBarDiv);
                     personDiv.appendChild(badgesDiv);
 
-                    // Add the user container to the tracker div
+                    // Add person container to tracker
                     tracker.appendChild(personDiv);
                 }
             } catch (error) {
@@ -115,7 +111,7 @@
             }
         }
 
-        // Load and render data on page load
+        // Load data on page load
         loadAndRenderData();
     </script>
 </body>
